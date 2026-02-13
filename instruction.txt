@@ -1,0 +1,38 @@
+create fresh environment
+python -m venv venv
+venv\Scripts\activate
+python -m pip install --upgrade pip
+
+pip install langchain==0.3.14 langchain-core==0.3.51 langchain-community==0.3.14 langchain-openai==0.3.0 langchain-groq==0.2.3 langchain-text-splitters==0.3.8 tavily-python python-dotenv langgraph
+
+
+Run this inside your venv:
+
+pip install tavily-python
+pip install langchain-community --upgrade
+
+
+Then verify:
+
+pip show tavily-python
+pip show langchain-community
+
+
+backend:
+
+pip install fastapi
+
+python -m pip show fastapi
+
+pip install uvicorn
+python -m pip show uvicorn
+
+
+frontend:
+pip install streamlit
+
+uvicorn Backend:app --host 127.0.0.1 --port 9999 --reload
+
+
+streamlit run FrontEnd.py
+
