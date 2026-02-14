@@ -25,7 +25,7 @@ groq_llm=ChatGroq(model="llama-3.3-70b-versatile")
 
 
 from langgraph.prebuilt import create_react_agent
-from langchain.schema import AIMessage
+from langchain.schema import AIMessage, HumanMessage
 
 system_promt="Act as an AI chatbot who is smart and friendly"
 
@@ -41,6 +41,24 @@ def get_response_from_ai_agent(llm_id, provider, query, allow_search ):
         tools=tools,
         #state_modifier= system_promt
     )
+    """
+    #  Add user message to memory 
+    chat_history.append(HumanMessage(content=query))
+
+    # Send full history to agent
+    state = {"messages": chat_history}
+    response = agent.invoke(state)
+
+    # Extract last AI message
+    messages = response.get("messages")
+    ai_messages = [m.content for m in messages if isinstance(m, AIMessage)]
+    final_answer = ai_messages[-1]
+
+    #  Store AI reply in memory
+    chat_history.append(AIMessage(content=final_answer))
+
+    return final_answer
+    """
 
     #query ="Tell me about the trends job market"
     state={"messages":query}

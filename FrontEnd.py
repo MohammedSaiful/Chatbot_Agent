@@ -10,8 +10,8 @@ import streamlit as st
 st.set_page_config(page_title="LangGraph Agent UI", layout="centered")
 st.title("Chatbot Agent")
 
-system_prompt=st.text_area("Define The Search Field: ", height=70, 
-                           placeholder="Type your system prompt here...")
+#system_prompt=st.text_area("Define The Search Field: ", height=70, 
+ #                          placeholder="Type your system prompt here...")
 
 MODEL_NAMES_GROQ = ["llama-3.3-70b-versatile", "mixtral-8x7b-32768"]
 MODEL_NAMES_OPENAI = ["gpt-4o-mini"]
