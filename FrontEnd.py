@@ -1,11 +1,11 @@
-#FrontEnd.py file
+
 from dotenv import load_dotenv
 load_dotenv()
 
 import streamlit as st
 import requests
 
-# ===== Streamlit UI =====
+#  Streamlit 
 st.set_page_config(page_title="LangGraph Agent UI", layout="centered")
 st.title("Chatbot Agent")
 
@@ -27,7 +27,7 @@ user_query = st.text_area("Write your thoughts", height=150, placeholder="Ask Me
 
 API_URL = "http://127.0.0.1:9999/chat"
 
-# ===== Button to get AI response =====
+#  Button to get AI response 
 if st.button("Answer"):
     if not user_query.strip():
         st.warning("Please type a question or message!")

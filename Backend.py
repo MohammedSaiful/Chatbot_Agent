@@ -1,17 +1,17 @@
 
-# Library Imports 
+# Imports 
 from pydantic import BaseModel
 from typing import List
 from dotenv import load_dotenv
 
-# Load environment variables from .env file immediately
+# Load environment variables from .env file
 load_dotenv()
 
 import os
 import psycopg2
 from psycopg2 import pool 
 
-# FastAPI framework for creating the API endpoints
+# FastAPI framework for create API endpoints
 from fastapi import FastAPI
 from ai_agent import get_response_from_ai_agent
 
@@ -81,7 +81,7 @@ def chat_endpoint(request: RequestState):
     allow_search = request.allow_search
     provider = request.model_provider
 
-    # Placeholder for user identification (can be expanded for multi-user support)
+    # for user identification (can be for multi-user support)
     user_id = "user" 
 
     try:
@@ -90,7 +90,7 @@ def chat_endpoint(request: RequestState):
             llm_id, provider, query, allow_search, user_id=user_id
         )
     except Exception as e:
-        # Catch any errors (API failures, DB issues, etc.) and return as JSON
+        # Catch any errors and return as JSON
         return {"error": str(e)}
 
     # Return the final AI response to the client

@@ -40,7 +40,7 @@ def save_message(user_id, role, content):
     """
     Saves a single chat message (user or assistant) into the PostgreSQL database.
     """
-    # Request a connection from the pre-warmed pool
+    # Request a connection from the pool
     conn = db_pool.getconn() 
     try:
         cur = conn.cursor()
@@ -49,11 +49,11 @@ def save_message(user_id, role, content):
             "INSERT INTO chatbotagent (user_id, role, content) VALUES (%s, %s, %s)",
             (user_id, role, content),
         )
-        # Commit the transaction to save permanent
+        # Commit to save permanent
         conn.commit()
         cur.close()
     finally:
-        # Always return the connection to the pool, even if the query fails
+        # return the connection to the pool, even if the query fails
         db_pool.putconn(conn)
 
 
@@ -65,7 +65,7 @@ def load_chat_history(user_id="user"):
     conn = db_pool.getconn()
     try:
         cur = conn.cursor()
-        # Fetch messages in order from oldest to newest
+        # Fetch messages oldest to newest
         cur.execute(
             "SELECT role, content FROM chatbotagent WHERE user_id = %s ORDER BY created_at ASC",
             (user_id,),
@@ -82,7 +82,7 @@ def load_chat_history(user_id="user"):
                 chat_history.append(AIMessage(content=content))
         return chat_history
     finally:
-        # Return the connection to the pool for the next request
+        # Return the connection to the pool for next request
         db_pool.putconn(conn)
 
 # Main AI Agent Logic
@@ -96,7 +96,7 @@ def get_response_from_ai_agent(llm_id, provider, query, allow_search, user_id="u
     4. Saves the AI's response back to the DB
     """
     
-    # Load long-term memory (previous messages) from the database
+    # Load previous messages from database
     chat_history = load_chat_history(user_id)
 
     # Add current user queries to the history and save them to the DB
@@ -112,7 +112,7 @@ def get_response_from_ai_agent(llm_id, provider, query, allow_search, user_id="u
     else:
         raise ValueError("Provider must be 'Groq' or 'OpenAI'")
 
-    # web search tool if enabled
+    # web search tool
     tools = [TavilySearchResults(max_results=2)] if allow_search else []
 
     #  ReAct Agent
@@ -121,7 +121,7 @@ def get_response_from_ai_agent(llm_id, provider, query, allow_search, user_id="u
         tools=tools,
     )
 
-    # Run the agent with the combined history (Memory + New Query)
+    # Run agent with combined history (Memory + New Query)
     state = {"messages": chat_history}
     response = agent.invoke(state)
 
