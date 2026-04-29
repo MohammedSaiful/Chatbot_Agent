@@ -1,4 +1,4 @@
-# LangGraph AI Agent with PostgreSQL Memory
+# LangGraph AI Agent 
 
 An intelligent, stateful chatbot built using **LangGraph**, **FastAPI**, and **Streamlit**. This agent uses a **ReAct (Reasoning + Acting)** logic flow to answer queries, search the web via Tavily, and maintain long-term conversation history in a **Supabase (PostgreSQL)** database using connection pooling.
 
